@@ -1,8 +1,9 @@
 <?php
 class Login extends Dbh{
 
-    protected function getUser($password,$email)
+    protected function getUser($email,$password)
     {
+
         $stmt = $this->connect()->prepare("SELECT password From users Where email = ? ");
 
         if(!$stmt->execute(array($email)))
@@ -41,14 +42,17 @@ class Login extends Dbh{
                 exit();
             }
             $user = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+            // var_dump($user[0]['name']);
+            // die();
             session_start();
             $_SESSION['name'] = $user[0]['name'];
             $_SESSION['email'] = $user[0]['email'];
 
+            echo $_SESSION['name'];
+            die();
+
             $stmt = null;
         }
-        $stmt = null;
     }
 
 }
